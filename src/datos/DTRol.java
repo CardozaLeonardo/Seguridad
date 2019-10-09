@@ -17,7 +17,7 @@ public class DTRol
 	public ArrayList<Rol> listarRol()
 	{
 		ArrayList<Rol> roles = new ArrayList<Rol>();
-		String sql = "SELECT * from public.rol";
+		String sql = "SELECT * from public.rol where estado <> 3";
 		
 		try 
 		{

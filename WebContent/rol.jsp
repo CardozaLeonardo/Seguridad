@@ -67,12 +67,14 @@
                     <tr>
                       <th>ID</th>
                       <th>Descripción</th>
+                      <th>Acciones</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
                       <th>ID</th>
                       <th>Descripción</th>
+                      <th>Acciones</th>
                     </tr>
                   </tfoot>
                   <tbody>
@@ -87,6 +89,16 @@
                     <tr>
                     	<td><%=r.getIdRol() %></td>
                     	<td><%=r.getDescripcion() %></td>
+                    	<td>
+                    		<span>
+                    			<a onclick="eliminarRol(<%=r.getIdRol() %>);">
+                    				<i class="fas fa-trash"></i>
+                    			</a>
+                    		</span>
+                    		<span id="modificar" data-toggle="modal" data-target="#modificarRol">
+                    			<i class="fas fa-edit"></i>
+                    		</span>
+                    	</td>
                     </tr>
                     <%
                     } 
@@ -187,6 +199,32 @@
     </div>
   </div>
   </form>
+  
+  <!-- MODAL: Modificar Rol -->
+ <form action="./SLmodificarRol" method="post">
+  <div class="modal fade" id="modificarRol" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modificar Rol</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        	<span>ID: </span> <input type="text" class="form-control" id="midrol"
+  				name="midrol" />
+  			<span>Descripcion: </span> <input type="text" class="form-control" id="mdscrol"
+  			name="mdscrol" />
+        </div>
+        <div class="modal-footer">
+         	<button type="reset" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+  			<button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
 
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
@@ -204,6 +242,13 @@
 
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
+  
+  <script type="text/javascript">
+  	function eliminarRol(id)
+  	{
+  		window.open("SLeliminarRol?id="+id);
+  	}
+  </script>
 
 </body>
 

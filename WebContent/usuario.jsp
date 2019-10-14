@@ -1,6 +1,6 @@
-<%@page import="entidades.Rol"%>
+<%@page import="entidades.Usuario"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="datos.DTRol"%>
+<%@page import="datos.DTUsuario"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -65,33 +65,37 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>ID</th>
-                      <th>Descripción</th>
+                      <th>Primer Nombre</th>
+                      <th>Primer Apellido</th>
+                      <th>Usuario</th>
                       <th>Acciones</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>ID</th>
-                      <th>Descripción</th>
+                      <th>Primer Nombre</th>
+                      <th>Primer Apellido</th>
+                      <th>Usuario</th>
                       <th>Acciones</th>
+                      
                     </tr>
                   </tfoot>
                   <tbody>
                     <%
-                    DTRol dtr = new DTRol();
-                    ArrayList<Rol> listaRol = new ArrayList<Rol>();
+                    DTUsuario dtu = new DTUsuario();
+                    ArrayList<Usuario> listaUsuarios = new ArrayList<Usuario>();
                     
-                    listaRol = dtr.listarRol();
-                    for(Rol r: listaRol)
+                    listaUsuarios = dtu.listarUsuario();
+                    for(Usuario u: listaUsuarios)
                     {
                     %>
                     <tr>
-                    	<td><%=r.getIdRol() %></td>
-                    	<td><%=r.getDescripcion() %></td>
+                    	<td><%=u.getPrimerNombre() %></td>
+                    	<td><%=u.getPrimerApellido() %></td>
+                    	<td><%=u.getUsuario() %></td>
                     	<td>
                     		<span>
-                    			<a onclick="eliminarRol(<%=r.getIdRol() %>);">
+                    			<a onclick="eliminarRol();">
                     				<i class="fas fa-trash"></i>
                     			</a>
                     		</span>

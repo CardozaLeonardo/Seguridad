@@ -81,6 +81,39 @@ public class DTUsuario {
 		return guardado;
 	}
 	
+	public boolean LoginUsuario(Usuario u)
+	{
+		boolean encontrado = false;
+		
+		PreparedStatement ps;
+		String sql = ("SELECT * FROM public.usuario WHERE usuario = ? AND pwd = ?");
+		try 
+		{
+			ps = cn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			ps.setInt(1, u.getIdUsuario());
+			ps.setString(2, u.getPwd());
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next())
+			{
+				encontrado = true;
+			}
+			else
+			{
+				encontrado = false;
+			}
+			
+		} 
+		catch (Exception e) 
+		{
+			System.out.println("DATOS: ERROR AL VERIFICAR EL LOGIN "+ e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return encontrado;
+	}
+	
 //	public boolean eliminarRol(Rol r)
 //	{
 //		/*

@@ -62,7 +62,7 @@ public class SL_login extends HttpServlet {
 			else
 			{
 				System.err.println("ERROR AL AUTENTICAR EL USUARIO");
-				response.sendRedirect("index.jsp");
+				response.sendRedirect("login.jsp");
 			}
 		} 
 		catch (Exception e) 

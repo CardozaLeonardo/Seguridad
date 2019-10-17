@@ -90,7 +90,7 @@ public class DTUsuario {
 		try 
 		{
 			ps = cn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			ps.setInt(1, u.getIdUsuario());
+			ps.setString(1, u.getUsuario());
 			ps.setString(2, u.getPwd());
 			
 			rs = ps.executeQuery();

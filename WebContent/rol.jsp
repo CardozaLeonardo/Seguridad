@@ -3,6 +3,14 @@
 <%@page import="datos.DTRol"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+     <%
+    
+    //Limpia la CACHE del navegador
+    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Cache-Control", "no-store");
+    response.setDateHeader("Expires", 0);
+    response.setDateHeader("Expires", -1);
+    %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,6 +32,17 @@
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+<%
+		//VALIDACIÓN DE LA EXISTENCIA DE LA SESIÓN
+		String loginUser="";
+		loginUser = (String)session.getAttribute("login");
+		//VALIDA QUE LA VARIABLE loginUser NO SEA NULL
+		loginUser = loginUser==null?"":loginUser;
+		if(loginUser.equals(""))
+		{
+			response.sendRedirect("login.jsp");
+		}
+%>
 </head>
 
 <body id="page-top">

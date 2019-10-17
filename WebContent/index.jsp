@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%
+    
+    //Limpia la CACHE del navegador
+    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Cache-Control", "no-store");
+    response.setDateHeader("Expires", 0);
+    response.setDateHeader("Expires", -1);
+    %>
+   
 <!DOCTYPE html>
 <html lang="es">
 
@@ -20,6 +29,17 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
+<%
+		//VALIDACIÓN DE LA EXISTENCIA DE LA SESIÓN
+		String loginUser="";
+		loginUser = (String)session.getAttribute("login");
+		//VALIDA QUE LA VARIABLE loginUser NO SEA NULL
+		loginUser = loginUser==null?"":loginUser;
+		if(loginUser.equals(""))
+		{
+			response.sendRedirect("login.jsp");
+		}
+%>
 </head>
 
 <body id="page-top">
@@ -81,7 +101,7 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
+          <a class="btn btn-primary" href="login.jsp">Logout</a>
         </div>
       </div>
     </div>

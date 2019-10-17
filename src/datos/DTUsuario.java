@@ -19,7 +19,7 @@ public class DTUsuario {
 	public ArrayList<Usuario> listarUsuario()
 	{
 		ArrayList<Usuario> roles = new ArrayList<Usuario>();
-		String sql = "SELECT * from public.\"Usuario\" ";
+		String sql = "SELECT * from public.usuario ";
 		
 		try 
 		{
@@ -46,6 +46,41 @@ public class DTUsuario {
 		catch (SQLException e) 
 		{
 			System.err.println("DATOS: ERROR AL OBTENER ROLES");
+			e.printStackTrace();
+		}
+		return roles;
+	}
+	public ArrayList<Usuario> permisosUsuario(String usuario)
+	{
+		ArrayList<Usuario> roles = new ArrayList<Usuario>();
+		String sql = "SELECT * from public.usuario where usuario = ?";
+		
+		try 
+		{
+			PreparedStatement ps = cn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, 
+					ResultSet.CONCUR_UPDATABLE,ResultSet.HOLD_CURSORS_OVER_COMMIT);
+			ps.setString(1, usuario);
+			rs = ps.executeQuery();
+			
+			while(rs.next())
+			{
+				Usuario r = new Usuario();
+				r.setIdUsuario(rs.getInt("idUsuario"));
+				r.setPrimerNombre(rs.getString("primerNombre"));
+				r.setSegundoNombre(rs.getString("segundoNombre"));
+				r.setPrimerApellido(rs.getString("primerApellido"));
+				r.setSegundoApellido(rs.getString("segundoApellido"));
+				r.setUsuario(rs.getString("usuario"));
+				r.setPwd(rs.getString("pwd"));
+				r.setFechaCreacion(rs.getDate("fechaCreacion"));
+				
+				
+				roles.add(r);
+			}
+		} 
+		catch (SQLException e) 
+		{
+			System.err.println("DATOS: ERROR AL OBTENER DATOS DEL USUARIO");
 			e.printStackTrace();
 		}
 		return roles;

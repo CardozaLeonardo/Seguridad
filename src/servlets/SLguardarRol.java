@@ -42,13 +42,13 @@ public class SLguardarRol extends HttpServlet {
 			Rol r = new Rol();
 			DTRol dtr = new DTRol();
 			
-			int idrol = 0;
+			//int idrol = 0;
 			String descripcionRol = "";
 			
-			idrol = Integer.parseInt(request.getParameter("idrol"));
+			//idrol = Integer.parseInt(request.getParameter("idrol"));
 			descripcionRol = request.getParameter("dscrol");
 			
-			r.setIdRol(idrol);
+			//r.setIdRol(idrol);
 			r.setDescripcion(descripcionRol);
 			
 			if(dtr.guardarRol(r))

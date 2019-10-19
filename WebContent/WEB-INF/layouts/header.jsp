@@ -1,3 +1,35 @@
+<%@page import="datos.DTUsuario"%>
+<%@page import="entidades.Usuario"%>
+<%@page import="java.util.ArrayList"%>
+<%
+Usuario u = new Usuario();
+DTUsuario dtu = new DTUsuario();
+String nombre= "", apellido ="";
+
+		//VALIDACIÓN DE LA EXISTENCIA DE LA SESIÓN
+		String loginUser="";
+		loginUser = (String)session.getAttribute("login");
+		//VALIDA QUE LA VARIABLE loginUser NO SEA NULL
+		loginUser = loginUser==null?"":loginUser;
+		if(loginUser.equals(""))
+		{
+			response.sendRedirect("login.jsp");
+		}
+		else
+		{
+			ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+			usuarios = dtu.permisosUsuario(loginUser);
+			for(Usuario us : usuarios)
+			{
+				nombre = us.getPrimerNombre();
+				apellido = us.getPrimerApellido();
+				break;
+			}
+			
+			HttpSession hts2 = request.getSession(true);
+			hts2.setAttribute("nombre", nombre + ' ' + apellido);
+		}
+%>
         <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -151,7 +183,7 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Bienvenido: <%=nombre.concat(' '+ apellido) %></span>
                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
               </a>
               <!-- Dropdown - User Information -->

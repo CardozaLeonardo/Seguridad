@@ -1,16 +1,8 @@
-<%@page import="entidades.Rol"%>
+<%@page import="entidades.Usuario"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="datos.DTRol"%>
+<%@page import="datos.DTUsuario"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-     <%
-    
-    //Limpia la CACHE del navegador
-    response.setHeader("Pragma", "no-cache");
-    response.setHeader("Cache-Control", "no-store");
-    response.setDateHeader("Expires", 0);
-    response.setDateHeader("Expires", -1);
-    %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,17 +24,6 @@
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-<%
-		//VALIDACIÓN DE LA EXISTENCIA DE LA SESIÓN
-		String loginUser="";
-		loginUser = (String)session.getAttribute("login");
-		//VALIDA QUE LA VARIABLE loginUser NO SEA NULL
-		loginUser = loginUser==null?"":loginUser;
-		if(loginUser.equals(""))
-		{
-			response.sendRedirect("login.jsp");
-		}
-%>
 </head>
 
 <body id="page-top">
@@ -84,33 +65,37 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>ID</th>
-                      <th>Descripción</th>
+                      <th>Primer Nombre</th>
+                      <th>Primer Apellido</th>
+                      <th>Usuario</th>
                       <th>Acciones</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>ID</th>
-                      <th>Descripción</th>
+                      <th>Primer Nombre</th>
+                      <th>Primer Apellido</th>
+                      <th>Usuario</th>
                       <th>Acciones</th>
+                      
                     </tr>
                   </tfoot>
                   <tbody>
                     <%
-                    DTRol dtr = new DTRol();
-                    ArrayList<Rol> listaRol = new ArrayList<Rol>();
+                    DTUsuario dtu = new DTUsuario();
+                    ArrayList<Usuario> listaUsuarios = new ArrayList<Usuario>();
                     
-                    listaRol = dtr.listarRol();
-                    for(Rol r: listaRol)
+                    listaUsuarios = dtu.listarUsuario();
+                    for(Usuario u: listaUsuarios)
                     {
                     %>
                     <tr>
-                    	<td><%=r.getIdRol() %></td>
-                    	<td><%=r.getDescripcion() %></td>
+                    	<td><%=u.getPrimerNombre() %></td>
+                    	<td><%=u.getPrimerApellido() %></td>
+                    	<td><%=u.getUsuario() %></td>
                     	<td>
                     		<span>
-                    			<a onclick="eliminarRol(<%=r.getIdRol() %>);">
+                    			<a onclick="eliminarRol();">
                     				<i class="fas fa-trash"></i>
                     			</a>
                     		</span>

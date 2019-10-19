@@ -30,6 +30,8 @@ public class DTRol
 				Rol r = new Rol();
 				r.setIdRol(rs.getInt("idRol"));
 				r.setDescripcion(rs.getString("descripcion"));
+				r.setEstado(rs.getInt("estado"));
+			
 				roles.add(r);
 			}
 		} 
@@ -49,8 +51,9 @@ public class DTRol
 		{
 			this.listarRol();
 			rs.moveToInsertRow();
-			rs.updateInt("idRol", r.getIdRol());
+			//rs.updateInt("idRol", r.getIdRol());
 			rs.updateString("descripcion", r.getDescripcion());
+			rs.updateInt("estado", 1);
 			rs.insertRow();
 			rs.moveToCurrentRow();
 			guardado = true;

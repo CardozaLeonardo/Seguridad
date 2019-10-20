@@ -1,3 +1,7 @@
+ <%
+    String basePath = request.getContextPath();
+ %>
+ 
  <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -11,6 +15,10 @@
 
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
+      
+      <div class="sidebar-heading">
+        Seguridad
+      </div>
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item">
@@ -25,6 +33,10 @@
         <a class="nav-link" href="usuario.jsp">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Gestión de Usuarios</span>
+         </a>
+         <a class="nav-link" href="<%=basePath%>/admin/rolesUsuarios.jsp">
+          <i class="fas fa-fw fa-user-tag"></i>
+          <span>Asignación de Roles</span>
          </a>
       </li>
 

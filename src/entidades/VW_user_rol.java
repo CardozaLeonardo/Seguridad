@@ -1,11 +1,25 @@
 package entidades;
 
-public class Rol 
-{
+public class VW_user_rol {
+	
+	private int id_user_rol;
+	private int id_user;
 	private int id_rol;
 	private String rol_name;
-	private String rol_desc;
 	private int estado;
+	
+	public int getId_user_rol() {
+		return id_user_rol;
+	}
+	public void setId_user_rol(int id_user_rol) {
+		this.id_user_rol = id_user_rol;
+	}
+	public int getId_user() {
+		return id_user;
+	}
+	public void setId_user(int id_user) {
+		this.id_user = id_user;
+	}
 	public int getId_rol() {
 		return id_rol;
 	}
@@ -18,19 +32,12 @@ public class Rol
 	public void setRol_name(String rol_name) {
 		this.rol_name = rol_name;
 	}
-	public String getRol_desc() {
-		return rol_desc;
-	}
-	public void setRol_desc(String rol_desc) {
-		this.rol_desc = rol_desc;
-	}
 	public int getEstado() {
 		return estado;
 	}
 	public void setEstado(int estado) {
 		this.estado = estado;
 	}
-	
 	
 	
 }

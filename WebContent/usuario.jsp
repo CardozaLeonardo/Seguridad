@@ -1,12 +1,13 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@page import="entidades.Usuario"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="datos.DTUsuario"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@page import="datos.DT_Usuario"%>
+
 <!DOCTYPE html>
 <html>
 <head>
- <meta charset="utf-8">
+ <meta charset="ISO-8859-1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -82,17 +83,17 @@
                   </tfoot>
                   <tbody>
                     <%
-                    DTUsuario dtu = new DTUsuario();
-                    ArrayList<Usuario> listaUsuarios = new ArrayList<Usuario>();
-                    
-                    listaUsuarios = dtu.listarUsuario();
-                    for(Usuario u: listaUsuarios)
-                    {
+                    	DT_Usuario dtu = new DT_Usuario();
+                                        ArrayList<Usuario> listaUsuarios = new ArrayList<Usuario>();
+                                        
+                                        listaUsuarios = dtu.listarUsuarios();
+                                        for(Usuario u: listaUsuarios)
+                                        {
                     %>
                     <tr>
-                    	<td><%=u.getPrimerNombre() %></td>
-                    	<td><%=u.getPrimerApellido() %></td>
-                    	<td><%=u.getUsuario() %></td>
+                    	<td><%=u.getNombre1() %></td>
+                    	<td><%=u.getApellido2() %></td>
+                    	<td><%=u.getUsername() %></td>
                     	<td>
                     		<span>
                     			<a onclick="eliminarRol();">
@@ -167,7 +168,7 @@
 <!--         <div class="modal-header"> -->
 <!--           <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5> -->
 <!--           <button class="close" type="button" data-dismiss="modal" aria-label="Close"> -->
-<!--             <span aria-hidden="true">Ã—</span> -->
+<!--             <span aria-hidden="true">×</span> -->
 <!--           </button> -->
 <!--         </div> -->
 <!--         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div> -->
@@ -186,7 +187,7 @@
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Agregar Rol</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">Ã—</span>
+            <span aria-hidden="true">×</span>
           </button>
         </div>
         <div class="modal-body">
@@ -212,7 +213,7 @@
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Modificar Rol</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">Ã—</span>
+            <span aria-hidden="true">×</span>
           </button>
         </div>
         <div class="modal-body">

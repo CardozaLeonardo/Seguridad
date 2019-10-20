@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import datos.DTUsuario;
+import datos.DT_Usuario;
 import entidades.Usuario;
 
 /**
@@ -41,14 +41,14 @@ public class SL_login extends HttpServlet {
 		try 
 		{
 			Usuario u = new Usuario();
-			DTUsuario dtu = new DTUsuario();
+			DT_Usuario dtu = new DT_Usuario();
 			
 			String usuario, clave = "";
 			
 			usuario = request.getParameter("username");
 			clave = request.getParameter("password");
 			
-			u.setUsuario(usuario);
+			u.setUsername(usuario);
 			u.setPwd(clave);
 			
 			if (dtu.LoginUsuario(u)) 

@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import datos.DTRol;
+import datos.DT_Rol;
 import entidades.Rol;
 
 /**
@@ -42,7 +42,7 @@ public class SLmodificarRol extends HttpServlet {
 		
 		try 
 		{
-			DTRol dtr = new DTRol();
+			DT_Rol dtr = new DT_Rol();
 			Rol r = new Rol();
 			
 			idRol = request.getParameter("midrol");

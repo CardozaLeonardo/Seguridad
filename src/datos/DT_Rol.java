@@ -8,16 +8,16 @@ import java.util.ArrayList;
 
 import entidades.Rol;
 
-public class DTRol 
+public class DT_Rol 
 {
 	PoolConexion pc = PoolConexion.getInstance();
 	Connection cn = PoolConexion.getConnection();
 	ResultSet rs = null;
 	
-	public ArrayList<Rol> listarRol()
+	public ArrayList<Rol> listarRoles()
 	{
 		ArrayList<Rol> roles = new ArrayList<Rol>();
-		String sql = "SELECT * from public.rol where estado <> 3";
+		String sql = "SELECT * FROM tbl_rol where estado <> 3";
 		
 		try 
 		{
@@ -27,12 +27,13 @@ public class DTRol
 			
 			while(rs.next())
 			{
-				Rol r = new Rol();
-				r.setIdRol(rs.getInt("idRol"));
-				r.setDescripcion(rs.getString("descripcion"));
-				r.setEstado(rs.getInt("estado"));
+				Rol rol = new Rol();
+				rol.setId_rol(rs.getInt("id_rol"));
+				rol.setRol_name(rs.getString("rol_name"));
+				rol.setRol_desc(rs.getString("rol_desc"));
+				rol.setEstado(rs.getInt("estado"));
 			
-				roles.add(r);
+				roles.add(rol);
 			}
 		} 
 		catch (SQLException e) 
@@ -43,16 +44,17 @@ public class DTRol
 		return roles;
 	}
 	
-	public boolean guardarRol(Rol r)
+	public boolean guardarRol(Rol rol)
 	{
 		boolean guardado = false;
 		
 		try 
 		{
-			this.listarRol();
+			this.listarRoles();
 			rs.moveToInsertRow();
 			//rs.updateInt("idRol", r.getIdRol());
-			rs.updateString("descripcion", r.getDescripcion());
+			rs.updateString("rol_name", rol.getRol_name());
+			rs.updateString("rol_desc", rol.getRol_desc());
 			rs.updateInt("estado", 1);
 			rs.insertRow();
 			rs.moveToCurrentRow();
@@ -67,7 +69,7 @@ public class DTRol
 		return guardado;
 	}
 	
-	public boolean eliminarRol(Rol r)
+	public boolean eliminarRol(Rol rol)
 	{
 		/*
 		 * Estados
@@ -78,12 +80,12 @@ public class DTRol
 		
 		boolean eliminado = false;
 		PreparedStatement ps;
-		String sql = "Update public.rol set estado=3 where \"idRol\" = ?";
+		String sql = "UPDATE tbl_rol SET estado = 3 WHERE id_rol = ?";
 		
 		try 
 		{
 			ps = cn.prepareStatement(sql);
-			ps.setInt(1, r.getIdRol());
+			ps.setInt(1, rol.getId_rol());
 			ps.executeUpdate();
 			eliminado = true;
 		} 
@@ -96,7 +98,7 @@ public class DTRol
 		return eliminado;
 	}
 	
-	public boolean modificarRol(Rol r)
+	/*public boolean modificarRol(Rol r)
 	{
 		boolean modificado = false;
 		PreparedStatement ps;
@@ -116,20 +118,38 @@ public class DTRol
 			e.printStackTrace();
 		}
 		return modificado;
+	}*/
+	
+	public boolean modificarRol(Rol rol) {
+        boolean modificado = false;
+		
+		try
+		{
+			this.listarRoles();
+			rs.beforeFirst();
+			
+			while(rs.next())
+			{
+				if(rs.getInt(1)==rol.getId_rol())
+				{
+					
+					rs.updateString("rol_name", rol.getRol_name());
+					rs.updateString("rol_desc", rol.getRol_desc());
+					rs.updateInt("estado",2);
+					rs.updateRow();
+					modificado = true;
+					break;
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			System.err.println("ERROR modificarRol():" + e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return modificado;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

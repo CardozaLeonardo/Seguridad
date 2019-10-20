@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import datos.DTRol;
+import datos.DT_Rol;
 import entidades.Rol;
 
 /**
@@ -40,7 +40,7 @@ public class SLguardarRol extends HttpServlet {
 		try 
 		{
 			Rol r = new Rol();
-			DTRol dtr = new DTRol();
+			DT_Rol dtr = new DT_Rol();
 			
 			//int idrol = 0;
 			String descripcionRol = "";

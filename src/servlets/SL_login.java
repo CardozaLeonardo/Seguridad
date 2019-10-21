@@ -31,7 +31,27 @@ public class SL_login extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		if(request.getParameter("logout") != null) {
+			String logout = request.getParameter("logout");
+			
+			try {
+				int log = Integer.parseInt(logout);
+				
+				if(log == 1) {
+					request.getSession().invalidate();
+					response.sendRedirect("login.jsp");
+					return;
+				}else {
+					response.sendRedirect("index.jsp?error=1");
+					return;
+				}
+			}catch(NumberFormatException e) {
+				e.printStackTrace();
+				response.sendRedirect("index.jsp?error=2");
+			}
+		}
 	}
 
 	/**

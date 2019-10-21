@@ -1,8 +1,8 @@
 <%@page import="datos.DT_Usuario"%>
 <%@page import="entidades.Usuario"%>
 <%@page import="java.util.ArrayList"%>
-<%
-	/*Usuario u = new Usuario();
+<% 
+	Usuario u = new Usuario();
 DT_Usuario dtu = new DT_Usuario();
 String nombre= "", apellido ="";
 
@@ -13,22 +13,21 @@ String nombre= "", apellido ="";
 		loginUser = loginUser==null?"":loginUser;
 		if(loginUser.equals(""))
 		{
-	response.sendRedirect("login.jsp");
+	     response.sendRedirect(request.getContextPath() + "/login.jsp");
 		}
 		else
 		{
-	ArrayList<Usuario> usuarios = new ArrayList<Usuario>();*/
-	//usuarios = dtu.//permisosUsuario(loginUser);
-	//for(Usuario us : usuarios)
-	//{
-		//nombre = us.getPrimerNombre();
-	    //apellido = us.getPrimerApellido();
-		//break;
-	//}
+	//ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+	Usuario us = new Usuario();
+	us = dtu.obtenerUser(loginUser);
 	
-	/*HttpSession hts2 = request.getSession(true);
-	hts2.setAttribute("nombre", nombre + ' ' + apellido); */
-		//}
+	nombre = us.getNombre1();
+	apellido = us.getApellido1();
+		
+	
+	HttpSession hts2 = request.getSession(true);
+	hts2.setAttribute("nombre", nombre + ' ' + apellido); }
+	
 %>
         <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -183,7 +182,7 @@ String nombre= "", apellido ="";
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Bienvenido: <% %></span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Bienvenido: <%=nombre + " " +apellido%></span>
                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
               </a>
               <!-- Dropdown - User Information -->
@@ -201,7 +200,7 @@ String nombre= "", apellido ="";
                   Activity Log
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="<%=request.getContextPath()%>/SL_login?logout=1">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>

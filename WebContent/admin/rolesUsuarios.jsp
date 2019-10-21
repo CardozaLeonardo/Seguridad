@@ -24,7 +24,19 @@
 
 </head>
 <%
-   
+//VALIDACIÓN DE LA EXISTENCIA DE LA SESIÓN
+		String loginUser="";
+		loginUser = (String)session.getAttribute("login");
+		//VALIDA QUE LA VARIABLE loginUser NO SEA NULL
+		loginUser = loginUser==null?"":loginUser;
+		if(loginUser.equals(""))
+		{
+			response.sendRedirect("../login.jsp");
+			return;
+		} 
+ 
+
+
  DT_rolUsuario tru = new DT_rolUsuario();
  ArrayList<VW_user_rol> rolesUser = null;
  

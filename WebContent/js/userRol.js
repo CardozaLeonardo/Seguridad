@@ -8,9 +8,10 @@ $("#removeRoleBTN").click(function(){
         window.location.replace(`../SL_asignarRol?delete=${rolUser}&idUser=${idUser}`);
 
     }else{
+        //textMSG = utf8_encode('Selección vacia')
         Swal.fire({
             type: 'warning',
-            title: 'Selección vacia',
+            title: 'Selecci\u00F3n vacia',
             text: 'Seleccione un rol a eliminar'
         })
     }

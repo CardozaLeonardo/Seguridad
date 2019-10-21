@@ -76,7 +76,7 @@ public class DT_rolUsuario {
         
 		ArrayList<VW_user_rol> rolesUser = new ArrayList<VW_user_rol>();
 		
-		String sql = "SELECT * FROM public.vw_user_rol WHERE estado <> 3";
+		String sql = "SELECT * FROM public.vw_user_rol WHERE id_user = ?";
 		
 		try 
 		{
@@ -98,13 +98,36 @@ public class DT_rolUsuario {
 			
 				rolesUser.add(ru);
 			}
+			
+			return rolesUser;
 		} 
 		catch (SQLException e) 
 		{
 			System.err.println("Error en listarRolUsuario(int): " + e.getMessage());
 			e.printStackTrace();
 		}
-		return rolesUser;
+		return null;
 	}
+   
+   public boolean eliminarUserRol(int idUserRol) {
+	   boolean eliminado = false;
+		PreparedStatement ps;
+		String sql = "DELETE FROM public.tbl_user_rol WHERE id_user_rol = ?";
+		
+		try 
+		{
+			ps = cn.prepareStatement(sql);
+			ps.setInt(1, idUserRol);
+			ps.executeUpdate();
+			eliminado = true;
+		} 
+		catch (Exception e) 
+		{
+			System.err.println("Error en eliminarUserRol() " + e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return eliminado;
+   }
 	
 }

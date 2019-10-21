@@ -51,6 +51,73 @@ public class DT_Usuario {
 		}
 		return usuarios;
 	}
+	
+	public Usuario obtenerUser(int idUser) {
+		Usuario us = null;
+		String sql = "SELECT * FROM tbl_user WHERE id_user = ?";
+		
+		try 
+		{
+			PreparedStatement ps = cn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, 
+					ResultSet.CONCUR_UPDATABLE,ResultSet.HOLD_CURSORS_OVER_COMMIT);
+			ps.setInt(1, idUser);
+			rs = ps.executeQuery();
+			
+			if(rs.next())
+			{
+				us = new Usuario();
+				us.setId_user(rs.getInt("id_user"));
+				us.setUsername(rs.getString("username"));
+				us.setNombre1(rs.getString("nombre1"));
+				us.setNombre2(rs.getString("nombre2"));
+				us.setApellido1(rs.getString("apellido1"));
+				us.setApellido2(rs.getString("apellido2"));
+				us.setEmail(rs.getString("email"));
+				us.setPwd(rs.getString("password"));
+				us.setEstado(rs.getInt("estado"));
+			}
+		} 
+		catch (SQLException e) 
+		{
+			System.err.println("Error en listarUsuarios(): " + e.getMessage());
+			e.printStackTrace();
+		}
+		return us;
+	}
+	
+	
+	public Usuario obtenerUser(String username) {
+		Usuario us = null;
+		String sql = "SELECT * FROM tbl_user WHERE username = ?";
+		
+		try 
+		{
+			PreparedStatement ps = cn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, 
+					ResultSet.CONCUR_UPDATABLE,ResultSet.HOLD_CURSORS_OVER_COMMIT);
+			ps.setString(1, username);
+			rs = ps.executeQuery();
+			
+			if(rs.next())
+			{
+				us = new Usuario();
+				us.setId_user(rs.getInt("id_user"));
+				us.setUsername(rs.getString("username"));
+				us.setNombre1(rs.getString("nombre1"));
+				us.setNombre2(rs.getString("nombre2"));
+				us.setApellido1(rs.getString("apellido1"));
+				us.setApellido2(rs.getString("apellido2"));
+				us.setEmail(rs.getString("email"));
+				us.setPwd(rs.getString("password"));
+				us.setEstado(rs.getInt("estado"));
+			}
+		} 
+		catch (SQLException e) 
+		{
+			System.err.println("Error en listarUsuarios(): " + e.getMessage());
+			e.printStackTrace();
+		}
+		return us;
+	}
 	/*public ArrayList<Usuario> permisosUsuario(String usuario)
 	{
 		ArrayList<Usuario> roles = new ArrayList<Usuario>();

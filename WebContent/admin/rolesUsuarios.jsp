@@ -34,12 +34,45 @@
  DT_Usuario dtus = new DT_Usuario();
  ArrayList<Usuario> usuarios = dtus.listarUsuarios();
  
+ Usuario usr = null;
+ 
+ boolean withUser = false;
+ String nameInput = "";
+ String id_user ="";
+ String errorMsg = "";
+ boolean error = false; // Para indicar cualquier error a notificar
  
  
  if(request.getParameter("user") != null)
  {
-	 int idUser = Integer.parseInt(request.getParameter("user"));
-	 rolesUser = tru.listarRolUsuario(idUser);
+	 try{
+	     int idUser = Integer.parseInt(request.getParameter("user"));
+		 rolesUser = tru.listarRolUsuario(idUser);
+		 usr = dtus.obtenerUser(idUser);
+		 if(usr == null){
+			 response.sendRedirect("rolesUsuarios.jsp?error=1");
+			 return;
+			 //System.out.println("Adios");
+		 }
+		 
+		 nameInput = usr.getUsername() + " - " + usr.getNombre1() + " " + usr.getApellido1();
+		 id_user += usr.getId_user();
+		 withUser = true;
+	 
+	 }catch(NumberFormatException e){
+		 response.sendRedirect("rolesUsuarios.jsp?error=2");
+		 return;
+	 }
+ }
+ 
+ if(request.getParameter("error") !=null){
+	 error = true;
+	 String errorVal = request.getParameter("error");
+	 if(errorVal.equals("1")){
+		 errorMsg = "El usuario especificado no existe";
+	 }else if(errorVal.equals("2")){
+		 errorMsg = "Parámetro incorrecto";
+	 }
  }
 
 %>
@@ -63,6 +96,23 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
+          <% if(request.getParameter("saved") != null) {%>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+			  ¡El rol se ha asignado<strong> correctamente</strong>!
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+		  <%} %>
+		  
+		  <% if(error) {%>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+			  <%=errorMsg %>
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+		  <%} %>
 
           <!-- Page Heading -->
           <h1 class="h3 mb-2 text-gray-800">Roles</h1>
@@ -72,7 +122,7 @@
             
             <form role="form" method="POST" class="col-6" action="../SL_asignarRol">
               
-            <input type="hidden" id="idUser" name="idUser" value="0">
+            <input type="hidden" id="idUser" name="idUser" value="<%=id_user%>">
             <div class="form-group">
 		    <label for="listaRoles">Roles: </label>
 		    <select name="rolUser" required class="form-control" id="listaRoles">
@@ -87,18 +137,29 @@
 		  
 		  
             <div class="form-group">
-		    <label for="listaRoles">Roles: </label>
-		    <select name="user" required class="form-control" id="user">
-		      <option value="" selected>Elegir</option>
-		     <%
-		        for(Usuario user: usuarios){
-		     %>
-		      <option value="<%=user.getId_user()%>"><%=user.getUsername() +" "+user.getNombre1()+" "+user.getApellido1()%></option>
-		      <%} %>
-		    </select>
+		    <label for="listaUsuarios">Usuario: </label>
+		    <input type="text" class="form-control" name="userField" id="userField" value="<%=nameInput %>" disabled>
 		  </div>
+		  <%
+		     if(withUser){	 
+		  %>
+		   <div class="form-group">
+		   <label for="currentRoles">Roles actuales: </label>
+		   <select name="currentRoles" id="currentRoles" class="form-control">
+		      <option value="" selected>Elegir</option>
+		      <%
+		      for(VW_user_rol r: rolesUser) {
+		      %>
+		      <option class="cr-<%=r.getId_rol()%>" value="<%=r.getId_user_rol() %>"><%=r.getRol_name() %></option>
+		      <%} %>
+		   </select>
+		   </div>
+		   
 		  
-		    <button type="submit" class="btn btn-primary">Agregar</button>
+		  <%} %>
+		  
+		    <button id="submitRole" type="submit" class="btn btn-success">Agregar</button>
+		    <button type="button" id="removeRoleBTN" class="btn btn-danger">Retirar</button>
             </form>
             <br>
             
@@ -134,7 +195,8 @@
                       <td><%=user.getUsername() %></td>
                       <td><%=user.getEmail() %></td>
                       <td>
-                       <a role="button" href="#" class="btn btn-danger">Remover</a>
+                       <a role="button" href="./rolesUsuarios.jsp?user=<%=user.getId_user()%>" id="selectUserBTN" 
+                       class="btn btn-primary">Aceptar</a>
                       </td>
                     </tr>
                     <%} %>
@@ -181,6 +243,9 @@
 
   <!-- Page level custom scripts -->
   <script src="../js/demo/datatables-demo.js"></script>
+  
+  <script src="../js/sweetalert2.all.min.js"></script>
+  <script src="../js/userRol.js"></script>
   
   <script>
     

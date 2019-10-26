@@ -41,7 +41,7 @@ public class SL_asignarRol extends HttpServlet {
 			id_user_rol = Integer.parseInt(rol);
 			idUser = Integer.parseInt(id_user);
 			if(dru.eliminarUserRol(id_user_rol)) {
-				response.sendRedirect("./admin/rolesUsuarios.jsp?user="+idUser);
+				response.sendRedirect("./seguridad/rolesUsuarios.jsp?user="+idUser);
 			}
 		}
 		catch(Exception e)
@@ -75,7 +75,7 @@ public class SL_asignarRol extends HttpServlet {
 			rs.setId_rol(rol);
 			
 			if(drs.guardarRolUsuario(rs)) {
-				response.sendRedirect("./admin/rolesUsuarios.jsp?user=" + user+"&saved=1");
+				response.sendRedirect("./seguridad/rolesUsuarios.jsp?user=" + user+"&saved=1");
 			}
 			
 		}catch(Exception e) {

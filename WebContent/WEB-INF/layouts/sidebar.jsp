@@ -34,9 +34,9 @@
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Gestión de Usuarios</span>
          </a>
-         <a class="nav-link" href="<%=basePath%>/admin/rolesUsuarios.jsp">
+         <a class="nav-link" href="<%=basePath%>/seguridad/rolesUsuarios.jsp">
           <i class="fas fa-fw fa-user-tag"></i>
-          <span>Asignación de Roles</span>
+          <span>Gestión de Roles</span>
          </a>
       </li>
 

@@ -29,15 +29,44 @@
 
 <%
 		//DESTRUYE LA SESIÓN
-		HttpSession hts = request.getSession(false);
+		/*HttpSession hts = request.getSession(false);
 		hts.removeAttribute("login");
-		hts.invalidate();
+		hts.invalidate();*/
 %>
 </head>
+
+<%
+
+ boolean error = false;
+ String msg = "";
+ String msgType = "";
+ String status = request.getParameter("status");
+ 
+ if(status != null)
+ {
+	 error = true;
+	 if(status.equals("2")) {
+		 msg = "¿A dónde crees que vas? Tienes que <strong>iniciar sesión</strong>";
+		 msgType = "info";
+	 }else if(status.equals("1")){
+		 msg = "Error: <strong>usuario o contrasela</strong> incorrecta";
+		 msgType = "danger";
+	 }
+ }
+
+%>
 
 <body class="bg-gradient-primary">
 
   <div class="container">
+  <% if(error) {%>
+        <div class="alert alert-<%=msgType%> alert-dismissible fade show" role="alert">
+	  <%=msg %>
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	    <span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+  <%} %>
 
     <!-- Outer Row -->
     <div class="row justify-content-center">

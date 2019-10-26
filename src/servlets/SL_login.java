@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -82,7 +84,10 @@ public class SL_login extends HttpServlet {
 			else
 			{
 				System.err.println("ERROR AL AUTENTICAR EL USUARIO");
-				response.sendRedirect("login.jsp");
+				response.sendRedirect("login.jsp?status=1");
+				//request.setAttribute("failLogin", 1);
+				//RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+				//rd.forward(request, response);
 			}
 		} 
 		catch (Exception e) 

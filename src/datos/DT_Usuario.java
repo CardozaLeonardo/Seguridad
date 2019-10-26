@@ -8,7 +8,10 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+
 import entidades.Usuario;
+
+
 
 public class DT_Usuario {
 
@@ -52,72 +55,6 @@ public class DT_Usuario {
 		return usuarios;
 	}
 	
-	public Usuario obtenerUser(int idUser) {
-		Usuario us = null;
-		String sql = "SELECT * FROM tbl_user WHERE id_user = ?";
-		
-		try 
-		{
-			PreparedStatement ps = cn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, 
-					ResultSet.CONCUR_UPDATABLE,ResultSet.HOLD_CURSORS_OVER_COMMIT);
-			ps.setInt(1, idUser);
-			rs = ps.executeQuery();
-			
-			if(rs.next())
-			{
-				us = new Usuario();
-				us.setId_user(rs.getInt("id_user"));
-				us.setUsername(rs.getString("username"));
-				us.setNombre1(rs.getString("nombre1"));
-				us.setNombre2(rs.getString("nombre2"));
-				us.setApellido1(rs.getString("apellido1"));
-				us.setApellido2(rs.getString("apellido2"));
-				us.setEmail(rs.getString("email"));
-				us.setPwd(rs.getString("password"));
-				us.setEstado(rs.getInt("estado"));
-			}
-		} 
-		catch (SQLException e) 
-		{
-			System.err.println("Error en listarUsuarios(): " + e.getMessage());
-			e.printStackTrace();
-		}
-		return us;
-	}
-	
-	
-	public Usuario obtenerUser(String username) {
-		Usuario us = null;
-		String sql = "SELECT * FROM tbl_user WHERE username = ?";
-		
-		try 
-		{
-			PreparedStatement ps = cn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, 
-					ResultSet.CONCUR_UPDATABLE,ResultSet.HOLD_CURSORS_OVER_COMMIT);
-			ps.setString(1, username);
-			rs = ps.executeQuery();
-			
-			if(rs.next())
-			{
-				us = new Usuario();
-				us.setId_user(rs.getInt("id_user"));
-				us.setUsername(rs.getString("username"));
-				us.setNombre1(rs.getString("nombre1"));
-				us.setNombre2(rs.getString("nombre2"));
-				us.setApellido1(rs.getString("apellido1"));
-				us.setApellido2(rs.getString("apellido2"));
-				us.setEmail(rs.getString("email"));
-				us.setPwd(rs.getString("password"));
-				us.setEstado(rs.getInt("estado"));
-			}
-		} 
-		catch (SQLException e) 
-		{
-			System.err.println("Error en listarUsuarios(): " + e.getMessage());
-			e.printStackTrace();
-		}
-		return us;
-	}
 	/*public ArrayList<Usuario> permisosUsuario(String usuario)
 	{
 		ArrayList<Usuario> roles = new ArrayList<Usuario>();
@@ -154,6 +91,39 @@ public class DT_Usuario {
 		return roles;
 	} */
 	
+	public Usuario obtenerUser(int idUser)
+	{
+		Usuario us  = new Usuario();
+		try
+		{
+			PreparedStatement ps = cn.prepareStatement("SELECT * from tbl_user where id_user = ? and estado<>3", 
+					ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE, 
+					ResultSet.HOLD_CURSORS_OVER_COMMIT);
+			ps.setInt(1, idUser);
+			rs = ps.executeQuery();
+			if(rs.next())
+			{
+				us.setId_user(rs.getInt("id_user"));
+				us.setNombre1(rs.getString("nombre1"));
+				us.setNombre2(rs.getString("nombre2"));
+				us.setApellido1(rs.getString("apellido1"));
+				us.setApellido2(rs.getString("apellido2"));
+				us.setUsername(rs.getString("username"));
+				us.setPwd(rs.getString("password"));
+				us.setEmail(rs.getString("email"));
+				us.setPwd_tmp(rs.getString("pwd_tmp"));
+				us.setEstado(rs.getInt("estado"));
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println("DATOS: ERROR en obtenerUser() "+ e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return us;
+	}
+	
 	public boolean guardarUsuario(Usuario user)
 	{
 		boolean guardado = false;
@@ -176,11 +146,71 @@ public class DT_Usuario {
 		} 
 		catch (Exception e) 
 		{
-			System.err.println("DATOS: ERROR -> Error al guardar Rol " + e.getMessage());
+			System.err.println("DATOS: ERROR -> Error al guardar Usuario " + e.getMessage());
 			e.printStackTrace();
 		}
 		
 		return guardado;
+	}
+	
+	
+	public boolean modificarUser(Usuario u)
+	{
+		boolean modificado=false;	
+		try
+		{
+			this.listarUsuarios();
+			rs.beforeFirst();
+			while (rs.next())
+			{
+				if(rs.getInt(1)==u.getId_user())
+				{
+					rs.updateString("nombre1", u.getNombre1());
+					rs.updateString("nombre2", u.getNombre2());
+					rs.updateString("apellido1", u.getApellido1());
+					rs.updateString("apellido2", u.getApellido2());
+					rs.updateString("password", u.getPwd());
+					rs.updateString("email", u.getEmail());
+					rs.updateInt("estado", 2);
+					rs.updateRow();
+					modificado=true;
+					break;
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			System.err.println("ERROR modificarUser() "+e.getMessage());
+			e.printStackTrace();
+		}
+		return modificado;
+		
+	}
+	
+	public boolean eliminarUser(Usuario u)
+	{
+		boolean eliminado=false;	
+		try
+		{
+			this.listarUsuarios();
+			rs.beforeFirst();
+			while (rs.next())
+			{
+				if(rs.getInt(1)==u.getId_user())
+				{
+					rs.updateInt("estado",3);
+					rs.updateRow();
+					eliminado=true;
+					break;
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			System.err.println("ERROR eliminarUser() "+e.getMessage());
+			e.printStackTrace();
+		}
+		return eliminado;
 	}
 	
 	public boolean LoginUsuario(Usuario u)

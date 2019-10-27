@@ -17,7 +17,7 @@ public class PoolConexion
 	private static String db = "hr";
 	private static String url = "jdbc:postgresql://localhost:5432/"+db;
 	private static String user = "postgres";
-	private static String pass = "123";
+	private static String pass = "Usuario123#.";
 	
 	private PoolConexion()
 	{
@@ -115,7 +115,7 @@ public class PoolConexion
 	            try 
 	            {
 	               con.close();
-	               System.out.println("Se desconectó de "+db+"!!!");
+	               System.out.println("Se desconectï¿½ de "+db+"!!!");
 	            } 
 	            catch (SQLException ex) 
 	            {

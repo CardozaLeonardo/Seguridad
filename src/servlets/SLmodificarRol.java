@@ -48,8 +48,8 @@ public class SLmodificarRol extends HttpServlet {
 			idRol = request.getParameter("midrol");
 			rol = request.getParameter("mdscrol");
 			
-			r.setIdRol(Integer.parseInt(idRol));
-			r.setDescripcion(rol);
+			r.setId_rol(Integer.parseInt(idRol));
+			r.setRol_desc(rol);
 			
 			if(dtr.modificarRol(r))
 			{

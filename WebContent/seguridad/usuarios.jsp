@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1" import=""%>
+    pageEncoding="ISO-8859-1" import="entidades.*, datos.*, java.util.*;"%>
 <!DOCTYPE html>
 <html>
 <meta charset="ISO-8859-1">
@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Herbario Nacional - Roles-Usuarios</title>
+  <title>Herbario Nacional-Usuarios</title>
 
   <!-- Custom fonts for this template -->
   <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -16,20 +16,27 @@
 
   <!-- Custom styles for this template -->
   <link href="../css/sb-admin-2.min.css" rel="stylesheet">
-
+  
+  <!-- DATATABLE NEW -->
+  <script src="../vendor/DataTablesNew/DataTables-1.10.18/css/jquery.dataTables.min.css"></script>
+  
+  <!-- DATATABLE NEW buttons -->
+    <link href="../vendor/DataTablesNew/Buttons-1.5.6/css/buttons.dataTables.min.css" rel="stylesheet">
+  
   <!-- Custom styles for this page -->
   <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
-</head>
-
-<%
-
   
+  <!-- jAlert css  -->
+  <link rel="stylesheet" href="../vendor/jAlert/dist/jAlert.css" /> 
 
+	<%
+/* RECUPERAMOS EL VALOR DE LA VARIABLE MSJ */
+String mensaje = "";
+mensaje = request.getParameter("msj");
+mensaje = mensaje==null?"":mensaje;
 %>
 
-
-
+</head>
 <body id="page-top">
    <!-- Page Wrapper -->
   <div id="wrapper">
@@ -41,265 +48,102 @@
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
-      <!-- Main Content -->
-      <div id="content">
+		
+
+     
 
         <!-- Topbar -->
         <jsp:include page="../WEB-INF/layouts/header.jsp"></jsp:include>
         <!-- End of Topbar -->
 
+			<section class="content-header">
+	      <div class="container-fluid">
+	        <div class="row mb-2">
+	          <div class="col-sm-6">
+	            <h1>DataTables</h1>
+	          </div>
+	          <div class="col-sm-6">
+	            <ol class="breadcrumb float-sm-right">
+	              <li class="breadcrumb-item"><a href="#">Seguridad</a></li>
+	              <li class="breadcrumb-item active">DataTables</li>
+	            </ol>
+	          </div>
+	        </div>
+	      </div><!-- /.container-fluid -->
+	    </section>
+			
+	<!-- Main Content -->
+      <div id="content">
         <!-- Begin Page Content -->
         <div class="container-fluid">
-
           <!-- Page Heading -->
           <h1 class="h3 mb-2 text-gray-800">Roles</h1>
           <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
 
-            <h2>Aquí debe ir el contenido</h2>
+            <h2>Usuarios</h2>
             
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="example2" width="100%" cellspacing="0">
                   
                    <thead>
                     <tr>
+                      <th>ID</th>
                       <th>Nombres</th>
                       <th>Apellidos</th>
-                      <th>Office</th>
-                      <th>Age</th>
-                      <th>Start date</th>
-                      <th>Salary</th>
+                      <th>Username</th>
+                      <th>Email</th>
+                      <th>Estado</th>
+                      <th>Opciones</th>
                     </tr>
                   </thead>
-                  <tfoot>
+                  <tbody>
+                    <%
+                	DT_Usuario dtus = new DT_Usuario();
+  	        		ArrayList<Usuario> listarUsuarios = new ArrayList<Usuario>();
+  	        		listarUsuarios = dtus.listarUsuarios();
+  	        		
+  	        		String nombreCompleto = "";
+  	        		String nombre2="";
+  	        		String apellido2="";
+  	        		String apellidos= "";
+  	        		String estado = "";
+  	        		for(Usuario tus : listarUsuarios)
+  	        		{
+  	        			nombre2=tus.getNombre2();
+  	        			nombre2=nombre2==null?" ":nombre2;
+  	        			apellido2=tus.getApellido2();
+  	        			apellido2=apellido2==null?" ":apellido2;
+  	        			nombreCompleto = tus.getNombre1()+" "+nombre2;
+  	        			apellidos = tus.getApellido1()+" "+apellido2;
+  	        			estado = tus.getEstado()==1||tus.getEstado()==2?"ACTIVO":"";
+                %>
+	                <tr>
+	                  <td><%=tus.getId_user()%></td>
+	                  <td><%=nombreCompleto %></td>
+	                  <td><%=apellidos %></td>
+	                  <td><%=tus.getUsername() %></td>
+	                  <td><%=tus.getEmail() %></td>
+	                  <td><%=estado %></td>
+	                  <td>
+	                  	<a href="#" onclick="linkEditUser('<%=tus.getId_user()%>');"><i class="far fa-edit" title="Editar"></i></a>&nbsp;&nbsp;
+	                  	<a href="#" onclick="deleteUser('<%=tus.getId_user()%>');"><i class="far fa-trash-alt" title="Eliminar"></i> </a>
+	                  	
+	                  </td>
+	                </tr>
+	             <%
+	        		}   
+	             %>        
+                  </tbody>
+                   <tfoot>
                     <tr>
-                      <th>Name</th>
-                      <th>Position</th>
-                      <th>Office</th>
-                      <th>Age</th>
-                      <th>Start date</th>
-                      <th>Salary</th>
+                      <th>ID</th>
+                      <th>Nombres</th>
+                      <th>Apellidos</th>
+                      <th>Username</th>
+                      <th>Email</th>
+                      <th>Estado</th>
+                      <th>Opciones</th>
                     </tr>
                   </tfoot>
-                  <tbody>
-                    <tr>
-                      <td>Tiger Nixon</td>
-                      <td>System Architect</td>
-                      <td>Edinburgh</td>
-                      <td>61</td>
-                      <td>2011/04/25</td>
-                      <td>$320,800</td>
-                    </tr>
-                    <tr>
-                      <td>Garrett Winters</td>
-                      <td>Accountant</td>
-                      <td>Tokyo</td>
-                      <td>63</td>
-                      <td>2011/07/25</td>
-                      <td>$170,750</td>
-                    </tr>
-                    <tr>
-                      <td>Ashton Cox</td>
-                      <td>Junior Technical Author</td>
-                      <td>San Francisco</td>
-                      <td>66</td>
-                      <td>2009/01/12</td>
-                      <td>$86,000</td>
-                    </tr>
-                    <tr>
-                      <td>Cedric Kelly</td>
-                      <td>Senior Javascript Developer</td>
-                      <td>Edinburgh</td>
-                      <td>22</td>
-                      <td>2012/03/29</td>
-                      <td>$433,060</td>
-                    </tr>
-                    <tr>
-                      <td>Airi Satou</td>
-                      <td>Accountant</td>
-                      <td>Tokyo</td>
-                      <td>33</td>
-                      <td>2008/11/28</td>
-                      <td>$162,700</td>
-                    </tr>
-                    <tr>
-                      <td>Brielle Williamson</td>
-                      <td>Integration Specialist</td>
-                      <td>New York</td>
-                      <td>61</td>
-                      <td>2012/12/02</td>
-                      <td>$372,000</td>
-                    </tr>
-                    <tr>
-                      <td>Herrod Chandler</td>
-                      <td>Sales Assistant</td>
-                      <td>San Francisco</td>
-                      <td>59</td>
-                      <td>2012/08/06</td>
-                      <td>$137,500</td>
-                    </tr>
-                    <tr>
-                      <td>Rhona Davidson</td>
-                      <td>Integration Specialist</td>
-                      <td>Tokyo</td>
-                      <td>55</td>
-                      <td>2010/10/14</td>
-                      <td>$327,900</td>
-                    </tr>
-                    <tr>
-                      <td>Colleen Hurst</td>
-                      <td>Javascript Developer</td>
-                      <td>San Francisco</td>
-                      <td>39</td>
-                      <td>2009/09/15</td>
-                      <td>$205,500</td>
-                    </tr>
-                    <tr>
-                      <td>Sonya Frost</td>
-                      <td>Software Engineer</td>
-                      <td>Edinburgh</td>
-                      <td>23</td>
-                      <td>2008/12/13</td>
-                      <td>$103,600</td>
-                    </tr>
-                    <tr>
-                      <td>Jena Gaines</td>
-                      <td>Office Manager</td>
-                      <td>London</td>
-                      <td>30</td>
-                      <td>2008/12/19</td>
-                      <td>$90,560</td>
-                    </tr>
-                    <tr>
-                      <td>Quinn Flynn</td>
-                      <td>Support Lead</td>
-                      <td>Edinburgh</td>
-                      <td>22</td>
-                      <td>2013/03/03</td>
-                      <td>$342,000</td>
-                    </tr>
-                    <tr>
-                      <td>Charde Marshall</td>
-                      <td>Regional Director</td>
-                      <td>San Francisco</td>
-                      <td>36</td>
-                      <td>2008/10/16</td>
-                      <td>$470,600</td>
-                    </tr>
-                    <tr>
-                      <td>Haley Kennedy</td>
-                      <td>Senior Marketing Designer</td>
-                      <td>London</td>
-                      <td>43</td>
-                      <td>2012/12/18</td>
-                      <td>$313,500</td>
-                    </tr>
-                    <tr>
-                      <td>Tatyana Fitzpatrick</td>
-                      <td>Regional Director</td>
-                      <td>London</td>
-                      <td>19</td>
-                      <td>2010/03/17</td>
-                      <td>$385,750</td>
-                    </tr>
-                    <tr>
-                      <td>Michael Silva</td>
-                      <td>Marketing Designer</td>
-                      <td>London</td>
-                      <td>66</td>
-                      <td>2012/11/27</td>
-                      <td>$198,500</td>
-                    </tr>
-                    <tr>
-                      <td>Paul Byrd</td>
-                      <td>Chief Financial Officer (CFO)</td>
-                      <td>New York</td>
-                      <td>64</td>
-                      <td>2010/06/09</td>
-                      <td>$725,000</td>
-                    </tr>
-                    <tr>
-                      <td>Gloria Little</td>
-                      <td>Systems Administrator</td>
-                      <td>New York</td>
-                      <td>59</td>
-                      <td>2009/04/10</td>
-                      <td>$237,500</td>
-                    </tr>
-                    <tr>
-                      <td>Bradley Greer</td>
-                      <td>Software Engineer</td>
-                      <td>London</td>
-                      <td>41</td>
-                      <td>2012/10/13</td>
-                      <td>$132,000</td>
-                    </tr>
-                    <tr>
-                      <td>Dai Rios</td>
-                      <td>Personnel Lead</td>
-                      <td>Edinburgh</td>
-                      <td>35</td>
-                      <td>2012/09/26</td>
-                      <td>$217,500</td>
-                    </tr>
-                    <tr>
-                      <td>Jenette Caldwell</td>
-                      <td>Development Lead</td>
-                      <td>New York</td>
-                      <td>30</td>
-                      <td>2011/09/03</td>
-                      <td>$345,000</td>
-                    </tr>
-                    <tr>
-                      <td>Yuri Berry</td>
-                      <td>Chief Marketing Officer (CMO)</td>
-                      <td>New York</td>
-                      <td>40</td>
-                      <td>2009/06/25</td>
-                      <td>$675,000</td>
-                    </tr>
-                    <tr>
-                      <td>Caesar Vance</td>
-                      <td>Pre-Sales Support</td>
-                      <td>New York</td>
-                      <td>21</td>
-                      <td>2011/12/12</td>
-                      <td>$106,450</td>
-                    </tr>
-                    <tr>
-                      <td>Doris Wilder</td>
-                      <td>Sales Assistant</td>
-                      <td>Sidney</td>
-                      <td>23</td>
-                      <td>2010/09/20</td>
-                      <td>$85,600</td>
-                    </tr>
-                    <tr>
-                      <td>Angelica Ramos</td>
-                      <td>Chief Executive Officer (CEO)</td>
-                      <td>London</td>
-                      <td>47</td>
-                      <td>2009/10/09</td>
-                      <td>$1,200,000</td>
-                    </tr>
-                    <tr>
-                      <td>Gavin Joyce</td>
-                      <td>Developer</td>
-                      <td>Edinburgh</td>
-                      <td>42</td>
-                      <td>2010/12/22</td>
-                      <td>$92,575</td>
-                    </tr>
-                    <tr>
-                      <td>Jennifer Chang</td>
-                      <td>Regional Director</td>
-                      <td>Singapore</td>
-                      <td>28</td>
-                      <td>2010/11/14</td>
-                      <td>$357,650</td>
-                    </tr>
-                    
-                    
-                    
-                  </tbody>
                 </table>
 
         </div>
@@ -324,6 +168,24 @@
   </a>
   
   
+  <!-- jQuery -->
+  <script src="../vendor/jquery/jquery.min.js"></script>
+  
+  <!-- DATATABLE NEW -->
+  <script src="../vendor/DataTablesNew/DataTables-1.10.18/js/jquery.dataTables.js"></script>
+  <!-- DATATABLE NEW buttons -->
+  <script src="../vendor/DataTablesNew/Buttons-1.5.6/js/dataTables.buttons.min.js"></script>
+
+<!-- js DATATABLE NEW buttons print -->
+  <script src="../vendor/DataTablesNew/Buttons-1.5.6/js/buttons.html5.min.js"></script>
+  <script src="../vendor/DataTablesNew/Buttons-1.5.6/js/buttons.print.min.js"></script>
+
+   <!-- js DATATABLE NEW buttons pdf -->
+  <script src="../vendor/DataTablesNew/pdfmake-0.1.36/pdfmake.min.js"></script>
+  <script src="../vendor/DataTablesNew/pdfmake-0.1.36/vfs_fonts.js"></script>
+
+  <!-- js DATATABLE NEW buttons excel -->
+  <script src="../vendor/DataTablesNew/JSZip-2.5.0/jszip.min.js"></script>
 
   <!-- Bootstrap core JavaScript-->
   <script src="../vendor/jquery/jquery.min.js"></script>
@@ -342,7 +204,65 @@
   <!-- Page level custom scripts -->
   <script src="../js/demo/datatables-demo.js"></script>
   
+  <!-- jAlert js -->
+  <script src="../vendor/jAlert/dist/jAlert.min.js"></script>
+  <script src="../vendor/jAlert/dist/jAlert-functions.min.js"> </script>
   
+  
+  <script>
+  $(function () {
+    $("#example1").DataTable();
+//     $('#example2').DataTable({
+//       "paging": true,
+//       "lengthChange": false,
+//       "searching": true,
+//       "ordering": false,
+//       "info": true,
+//       "autoWidth": false,
+      
+//     });
+    $('#example2').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+        'pdf',
+        'excel',
+        'print'
+        ]
+
+      });
+  });
+  
+</script>
+<script>
+  $(document).ready(function ()
+  {
+   
+    /////////// VARIABLES DE CONTROL MSJ ///////////
+    var msj = 0;
+    msj = "<%=mensaje%>";
+
+    if(msj == "1")
+    {
+      successAlert('Éxito', 'El registro ha sido editado!!!');
+    }
+    if(msj == "3")
+    {
+      successAlert('Éxito', 'El registro ha sido eliminado!!!');
+    }
+    if(msj == "2" || msj == "4")
+    {
+      errorAlert('Error', 'Revise los datos e intente nuevamente!!!');
+    }
+    if(msj == "ERROR")
+    {
+      errorAlert('Error', 'CONSULTE CON EL ADMINISTRADOR DEL SISTEMA!!!');
+    }
+   
+  
+    
+
+  });
+  </script>
 
 </body>
 </html>

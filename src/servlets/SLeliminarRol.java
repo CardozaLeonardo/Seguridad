@@ -37,7 +37,7 @@ public class SLeliminarRol extends HttpServlet {
 		{
 			DT_Rol dtr = new DT_Rol();
 			Rol r = new Rol();
-			r.setIdRol(Integer.parseInt(idRol));
+			r.setId_rol(Integer.parseInt(idRol));
 			
 			if(dtr.eliminarRol(r))
 			{

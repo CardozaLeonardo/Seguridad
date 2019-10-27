@@ -49,7 +49,7 @@ public class SLguardarRol extends HttpServlet {
 			descripcionRol = request.getParameter("dscrol");
 			
 			//r.setIdRol(idrol);
-			r.setDescripcion(descripcionRol);
+			r.setRol_desc(descripcionRol);
 			
 			if(dtr.guardarRol(r))
 			{

@@ -44,6 +44,38 @@ public class DT_Rol
 		return roles;
 	}
 	
+	public Rol obtenerRol(int idRol) {
+		
+		Rol rol = null;
+		String sql = "SELECT * FROM tbl_rol where id_rol = ?";
+		
+		try 
+		{
+			PreparedStatement ps = cn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, 
+					ResultSet.CONCUR_UPDATABLE,ResultSet.HOLD_CURSORS_OVER_COMMIT);
+			ps.setInt(1, idRol);
+			rs = ps.executeQuery();
+			
+			if(rs.next())
+			{
+				rol = new Rol();
+				rol.setId_rol(rs.getInt("id_rol"));
+				rol.setRol_name(rs.getString("rol_name"));
+				rol.setRol_desc(rs.getString("rol_desc"));
+				rol.setEstado(rs.getInt("estado"));
+			
+				return rol;
+			}
+		} 
+		catch (SQLException e) 
+		{
+			System.err.println("DATOS: ERROR AL OBTENER ROLES");
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	public boolean guardarRol(Rol rol)
 	{
 		boolean guardado = false;

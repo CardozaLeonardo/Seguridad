@@ -19,7 +19,7 @@ String nombre= "", apellido ="";
 		{
 	//ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 	Usuario us = new Usuario();
-	us = dtu.obtenerUser(loginUser);
+	/* us = dtu.obtenerUser(loginUser); */
 	
 	nombre = us.getNombre1();
 	apellido = us.getApellido1();

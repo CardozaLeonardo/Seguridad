@@ -67,11 +67,11 @@ public class SLguardarUsuario extends HttpServlet {
 					
 					if(dtus.guardarUsuario(u))
 					{
-						response.sendRedirect("./pages/seguridad/newUser.jsp?msj=1");
+						response.sendRedirect("./seguridad/newUser.jsp?msj=1");
 					}
 					else
 					{
-						response.sendRedirect("./pages/seguridad/newUser.jsp?msj=2");
+						response.sendRedirect("./seguridad/newUser.jsp?msj=2");
 					}
 				}
 				catch(Exception e)

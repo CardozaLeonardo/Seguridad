@@ -175,6 +175,7 @@ public class DT_Usuario {
 			rs.updateString("email", user.getEmail());
 			rs.updateString("password", user.getPwd());
 			rs.updateInt("estado", 1);
+			rs.insertRow();
 			rs.moveToCurrentRow();
 			guardado = true;
 		} 

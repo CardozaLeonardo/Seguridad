@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import datos.DT_Usuario;
 import entidades.Usuario;
+import negocio.NG_login;
 
 /**
  * Servlet implementation class SL_login
@@ -64,8 +65,10 @@ public class SL_login extends HttpServlet {
 		{
 			Usuario u = new Usuario();
 			DT_Usuario dtu = new DT_Usuario();
+			NG_login ngl = new NG_login();
 			
 			String usuario, clave = "";
+			int idRol = Integer.parseInt(request.getParameter("selectRol"));
 			
 			usuario = request.getParameter("username");
 			clave = request.getParameter("password");
@@ -76,6 +79,16 @@ public class SL_login extends HttpServlet {
 			if (dtu.LoginUsuario(u)) 
 			{
 				System.out.println("EL USUARIO ES CORRECTO");
+				
+				// Verificar si cuenta con los permisos para acceder con el rol ...
+				// seleccionado.
+				
+				if(!ngl.tieneRol(u.getUsername(), idRol)) {
+					response.sendRedirect("./accesoDenegado.jsp?type=1");
+					return;
+				}
+				
+				
 				HttpSession hts = request.getSession(true);
 				hts.setAttribute("login", usuario);
 				System.out.println(hts);

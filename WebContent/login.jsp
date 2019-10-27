@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="datos.DT_Rol, entidades.Rol, java.util.ArrayList"%>
     <%
     
     //Limpia la CACHE del navegador
@@ -41,6 +41,12 @@
  String msg = "";
  String msgType = "";
  String status = request.getParameter("status");
+ 
+ // Cargando los roles para ingresar
+ 
+ DT_Rol dtrol = new DT_Rol();
+ ArrayList<Rol> listaRoles = dtrol.listarRoles();
+ 
  
  if(status != null)
  {
@@ -85,13 +91,19 @@
                   </div>
                   <form method="post" action="./SL_login" class="user">
                     <div class="form-group">
-                      <input type="text" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" name="username">
+                      <input type="text" class="form-control form-control-user" id="exampleInputEmail" placeholder="Username" aria-describedby="emailHelp" name="username">
                     </div>
                     <div class="form-group">
                       <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" name="password">
                     </div>
                     <div class="form-group">
-                      
+                      <label for="selectRol">Ingresar como:</label>
+                      <select id="selectRol" name="selectRol" class="form-control" required>
+                      <option selected value="">Seleccionar...</option>
+                      <%for(Rol rol: listaRoles) {%>
+                      <option value="<%=rol.getId_rol()%>"><%=rol.getRol_name() %></option>
+                      <%} %>
+                      </select>
                     </div>
                     <input type="submit" class="btn btn-primary btn-user btn-block" value="Login" /> 
                     <hr>

@@ -124,6 +124,40 @@ public class DT_Usuario {
 		return us;
 	}
 	
+	public Usuario obtenerUser(String user)
+	{
+		Usuario us  = null;
+		try
+		{
+			PreparedStatement ps = cn.prepareStatement("SELECT * from tbl_user where username = ? and estado<>3", 
+					ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE, 
+					ResultSet.HOLD_CURSORS_OVER_COMMIT);
+			ps.setString(1, user);
+			rs = ps.executeQuery();
+			if(rs.next())
+			{
+				us  = new Usuario();
+				us.setId_user(rs.getInt("id_user"));
+				us.setNombre1(rs.getString("nombre1"));
+				us.setNombre2(rs.getString("nombre2"));
+				us.setApellido1(rs.getString("apellido1"));
+				us.setApellido2(rs.getString("apellido2"));
+				us.setUsername(rs.getString("username"));
+				us.setPwd(rs.getString("password"));
+				us.setEmail(rs.getString("email"));
+				us.setPwd_tmp(rs.getString("pwd_tmp"));
+				us.setEstado(rs.getInt("estado"));
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println("DATOS: ERROR en obtenerUser() "+ e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return us;
+	}
+	
 	public boolean guardarUsuario(Usuario user)
 	{
 		boolean guardado = false;

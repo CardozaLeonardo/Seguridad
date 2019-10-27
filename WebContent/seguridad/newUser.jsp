@@ -67,7 +67,7 @@ mensaje = mensaje==null?"":mensaje;
 	          </div>
 	          <div class="col-sm-6">
 	            <ol class="breadcrumb float-sm-right">
-	              <li class="breadcrumb-item"><a href="tblusuarios.jsp">Seguridad</a></li>
+	              <li class="breadcrumb-item"><a href="usuarios.jsp">Seguridad</a></li>
 	              <li class="breadcrumb-item active">Nuevo Usuario</li>
 	            </ol>
 	          </div>
@@ -111,21 +111,21 @@ mensaje = mensaje==null?"":mensaje;
                   <div class="form-group">
                     <label for="exampleInputEmail1">Primer Nombre:</label>
                     <input type="text" id="nombre1" name="nombre1" class="form-control" 
-                    placeholder="Primer Nombre" required>
+                    placeholder="Primer Nombre"  pattern="[A-Za-z]{4-16}" required>
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Segundo Nombre:</label>
-                    <input type="text" id="nombre2" name="nombre2" class="form-control"  placeholder="Nombre de Usuario">
+                    <input type="text" id="nombre2" name="nombre2" class="form-control"  pattern="[A-Za-z]{4-16}"  placeholder="Nombre de Usuario">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Primer Apellido:</label>
                     <input type="text" id="apellido1" name="apellido1" class="form-control" 
-                    placeholder="Primer Apellido" required>
+                    placeholder="Primer Apellido"  pattern="[A-Za-z]{4-16}" required>
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Segundo Apellido:</label>
                     <input type="text" id="apellido2" name="apellido2" class="form-control" 
-                    placeholder="Segundo Apellido">
+                    placeholder="Segundo Apellido"  pattern="[A-Za-z]{4-16}">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Email:</label>
@@ -138,7 +138,12 @@ mensaje = mensaje==null?"":mensaje;
 
                 <div class="card-footer">
                   <button type="submit" class="btn btn-primary">Registrar</button>
-                  <button type="reset" class="btn btn-danger">Cancelar</button>
+                  <!-- <button type="reset" class="btn btn-danger">Cancelar</button> -->
+                  
+                  <a href="usuarios.jsp" class="btn btn-danger btn-icon-split">
+                    <span class="text">Cancelar</span>
+                  </a>
+                  
                 </div>
               </form>
             </div>
@@ -155,8 +160,9 @@ mensaje = mensaje==null?"":mensaje;
 	</div>
   </div>
 
-<!-- jQuery -->
-<!-- <script src="../../plugins/jquery/jquery.min.js"></script> -->
+  <!-- jQuery -->
+  <script src="../vendor/jquery/jquery.min.js"></script>
+  <!-- <script src="../../plugins/jquery/jquery.min.js"></script> -->
 
  <!-- jAlert js -->
   <script src="../vendor/jAlert/dist/jAlert.min.js"></script>

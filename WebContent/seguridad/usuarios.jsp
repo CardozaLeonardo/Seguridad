@@ -2,11 +2,11 @@
     pageEncoding="ISO-8859-1" import="entidades.*, datos.*, java.util.*;"%>
 <!DOCTYPE html>
 <html>
+<head>
 <meta charset="ISO-8859-1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+ 
 
   <title>Herbario Nacional-Usuarios</title>
 
@@ -18,7 +18,7 @@
   <link href="../css/sb-admin-2.min.css" rel="stylesheet">
   
   <!-- DATATABLE NEW -->
-  <script src="../vendor/DataTablesNew/DataTables-1.10.18/css/jquery.dataTables.min.css"></script>
+  <link href="../vendor/DataTablesNew/DataTables-1.10.18/css/jquery.dataTables.min.css" rel="stylesheet">
   
   <!-- DATATABLE NEW buttons -->
     <link href="../vendor/DataTablesNew/Buttons-1.5.6/css/buttons.dataTables.min.css" rel="stylesheet">
@@ -77,12 +77,17 @@ mensaje = mensaje==null?"":mensaje;
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Roles</h1>
-          <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+          <!-- <h1 class="h3 mb-2 text-gray-800">Roles</h1>
+          <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
 
             <h2>Usuarios</h2>
-            
-            <table class="table table-bordered" id="example2" width="100%" cellspacing="0">
+                <a href="newUser.jsp" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-user-plus"></i>
+                    </span>
+                    <span class="text">Agregar Usuario</span>
+                  </a>
+            <table id="example2" class="display">
                   
                    <thead>
                     <tr>
@@ -171,8 +176,12 @@ mensaje = mensaje==null?"":mensaje;
   <!-- jQuery -->
   <script src="../vendor/jquery/jquery.min.js"></script>
   
+  <!-- Bootstrap core JavaScript-->
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
   <!-- DATATABLE NEW -->
   <script src="../vendor/DataTablesNew/DataTables-1.10.18/js/jquery.dataTables.js"></script>
+  
   <!-- DATATABLE NEW buttons -->
   <script src="../vendor/DataTablesNew/Buttons-1.5.6/js/dataTables.buttons.min.js"></script>
 
@@ -187,9 +196,7 @@ mensaje = mensaje==null?"":mensaje;
   <!-- js DATATABLE NEW buttons excel -->
   <script src="../vendor/DataTablesNew/JSZip-2.5.0/jszip.min.js"></script>
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="../vendor/jquery/jquery.min.js"></script>
-  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  
 
   <!-- Core plugin JavaScript-->
   <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -208,6 +215,25 @@ mensaje = mensaje==null?"":mensaje;
   <script src="../vendor/jAlert/dist/jAlert.min.js"></script>
   <script src="../vendor/jAlert/dist/jAlert-functions.min.js"> </script>
   
+  
+  <script>
+function deleteUser(user)
+{
+	var idUsuario = user;
+	confirm(function(e,btn)
+     { 	//event + button clicked
+     	e.preventDefault();
+     	window.location.href="../../SLguardarUsuario?opc=1&userID="+idUsuario;
+       	//successAlert('Confirmed!');
+     }, 
+     function(e,btn)
+     {
+       e.preventDefault();
+       //errorAlert('Denied!');
+     });
+	
+}
+</script>
   
   <script>
   $(function () {

@@ -30,8 +30,8 @@
           <i class="fas fa-fw fa-tasks"></i>
           <span>Gestión de Opciones</span>
          </a>
-        <a class="nav-link" href="usuario.jsp">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
+        <a class="nav-link" href="<%=basePath%>/seguridad/usuarios.jsp">
+          <i class="fas fa-users fa-tachometer-alt"></i>
           <span>Gestión de Usuarios</span>
          </a>
          <a class="nav-link" href="<%=basePath%>/seguridad/rolesUsuarios.jsp">

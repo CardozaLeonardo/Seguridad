@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" import="entidades.RolUsuario, datos.DT_rolUsuario, java.util.ArrayList, entidades.Rol, datos.DT_Rol,
-    entidades.Usuario, datos.DT_Usuario, entidades.VW_user_rol"%>
+    entidades.Usuario, datos.DT_Usuario, entidades.VW_user_rol, entidades.VW_user_opciones, datos.DT_rolOpcion"%>
     
 <!DOCTYPE html>
 <html>
@@ -21,6 +21,7 @@
 
   <!-- Custom styles for this page -->
   <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../jAlert/dist/jAlert.css" />
 
 </head>
 <%
@@ -34,6 +35,23 @@
 			response.sendRedirect("../login.jsp?status=2");
 			return;
 		} 
+		
+		
+ // VALIDAR ACCESO
+ ArrayList<VW_user_opciones> opciones = (ArrayList<VW_user_opciones>) session.getAttribute("opciones");
+ boolean acceso = false;
+ 
+ for(VW_user_opciones vu: opciones) {
+	 if(vu.getOpcion().equals("./seguridad/rolesUsuarios.jsp")) {
+		 acceso = true;
+	 }
+ }
+ 
+ if(!acceso){
+	 response.sendRedirect("../accesoDenegado.jsp");
+ }
+ 
+ ///////////
  
 
 
@@ -45,6 +63,10 @@
  
  DT_Usuario dtus = new DT_Usuario();
  ArrayList<Usuario> usuarios = dtus.listarUsuarios();
+ 
+ DT_rolOpcion dro = new DT_rolOpcion();
+ ArrayList<VW_user_opciones> vus = null;
+ 
  
  Usuario usr = null;
  
@@ -69,6 +91,7 @@
 		 
 		 nameInput = usr.getUsername() + " - " + usr.getNombre1() + " " + usr.getApellido1();
 		 id_user += usr.getId_user();
+		 vus = dro.listarOpcionesUsuario(idUser);
 		 withUser = true;
 	 
 	 }catch(NumberFormatException e){
@@ -171,7 +194,41 @@
 		  <%} %>
 		  
 		    <button id="submitRole" type="submit" class="btn btn-success">Agregar</button>
+		    &nbsp;&nbsp;
 		    <button type="button" id="removeRoleBTN" class="btn btn-danger">Retirar</button>
+		    <% if(withUser) { %>
+		      <span></span>
+		      &nbsp;
+		      <button type="button" data-toggle="modal" data-target="#modalOpciones" class="btn btn-info btn-icon-split">
+		      <span class="icon text-white-50">
+                <i class="fas fa-user-shield"></i>
+              </span>
+		      <span class="text">Mostrar permisos</span></button>
+		      
+		      <div class="modal fade" id="modalOpciones" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				  <div class="modal-dialog modal-dialog-centered" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title text-gray-900" id="exampleModalCenterTitle">Opciones:</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body">
+				        <ol>
+				         <%for(VW_user_opciones up: vus) {%>
+				         <li><%=up.getOpcion() %></li>
+				         <%} %>
+				        </ol>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+				        
+				      </div>
+				    </div>
+				  </div>
+			    </div>
+            <%} %>
             </form>
             <br>
             
@@ -256,7 +313,8 @@
   <!-- Page level custom scripts -->
   <script src="../js/demo/datatables-demo.js"></script>
   
-  <script src="../js/sweetalert2.all.min.js"></script>
+  <script src="../jAlert/dist/jAlert.min.js"></script>
+  <script src="../jAlert/dist/jAlert-functions.min.js"> </script>
   <script src="../js/userRol.js"></script>
   
   <script>

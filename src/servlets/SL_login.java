@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpSession;
 import datos.DT_Usuario;
 import entidades.Usuario;
 import negocio.NG_login;
+import entidades.VW_user_opciones;
+import datos.DT_rolOpcion;
 
 /**
  * Servlet implementation class SL_login
@@ -66,6 +69,8 @@ public class SL_login extends HttpServlet {
 			Usuario u = new Usuario();
 			DT_Usuario dtu = new DT_Usuario();
 			NG_login ngl = new NG_login();
+			ArrayList<VW_user_opciones> vus = null;
+			DT_rolOpcion dro = new DT_rolOpcion();
 			
 			String usuario, clave = "";
 			int idRol = Integer.parseInt(request.getParameter("selectRol"));
@@ -91,6 +96,9 @@ public class SL_login extends HttpServlet {
 				
 				HttpSession hts = request.getSession(true);
 				hts.setAttribute("login", usuario);
+				hts.setAttribute("id_rol", idRol);
+				vus = dro.listarOpcionesUsuario(usuario);
+				hts.setAttribute("opciones", vus);
 				System.out.println(hts);
 				response.sendRedirect("index.jsp");
 			}

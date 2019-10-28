@@ -4,6 +4,7 @@ public class VW_user_rol {
 	
 	private int id_user_rol;
 	private int id_user;
+	private String username;
 	private int id_rol;
 	private String rol_name;
 	private int estado;
@@ -37,6 +38,12 @@ public class VW_user_rol {
 	}
 	public void setEstado(int estado) {
 		this.estado = estado;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
 	

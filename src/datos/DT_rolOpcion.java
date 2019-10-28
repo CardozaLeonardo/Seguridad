@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import entidades.Tbl_rol_opcion;
 import entidades.VW_rol_opcion;
 import entidades.VW_user_rol;
+import entidades.VW_user_opciones;
 
 public class DT_rolOpcion {
 	
@@ -168,5 +169,80 @@ public class DT_rolOpcion {
 		
 		return eliminado;
    }
+   
+   public ArrayList<VW_user_opciones> listarOpcionesUsuario(int idUser) {
+       
+		ArrayList<VW_user_opciones> opcionesUser = new ArrayList<VW_user_opciones>();
+		
+		//String sql = "SELECT * FROM public.vw_user_opciones WHERE id_user = ?";
+		String sql = "SELECT DISTINCT id_opc, opcion from public.vw_user_opciones WHERE id_user = ?";
+		
+		try 
+		{
+			PreparedStatement ps = cn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, 
+					ResultSet.CONCUR_UPDATABLE,ResultSet.HOLD_CURSORS_OVER_COMMIT);
+			ps.setInt(1, idUser);
+			rs = ps.executeQuery();
+			
+			while(rs.next())
+			{
+				VW_user_opciones vus = new VW_user_opciones();
+				/*vus.setId_rol(rs.getInt("id_rol"));
+				vus.setRol_name(rs.getString("rol_name"));
+				vus.setId_user(rs.getInt("id_user"));
+				vus.setUsername(rs.getString("username"));*/
+				vus.setId_opc(rs.getInt("id_opc"));
+				vus.setOpcion(rs.getString("opcion"));
+			
+				opcionesUser.add(vus);
+			}
+			
+			return opcionesUser;
+		} 
+		catch (SQLException e) 
+		{
+			System.err.println("Error en listarOpcionesUsuario(int): " + e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+   
+   
+   public ArrayList<VW_user_opciones> listarOpcionesUsuario(String user) {
+       
+		ArrayList<VW_user_opciones> opcionesUser = new ArrayList<VW_user_opciones>();
+		
+		//String sql = "SELECT * FROM public.vw_user_opciones WHERE id_user = ?";
+		String sql = "SELECT DISTINCT id_opc, opcion from public.vw_user_opciones WHERE username = ?";
+		
+		try 
+		{
+			PreparedStatement ps = cn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, 
+					ResultSet.CONCUR_UPDATABLE,ResultSet.HOLD_CURSORS_OVER_COMMIT);
+			ps.setString(1, user);
+			rs = ps.executeQuery();
+			
+			while(rs.next())
+			{
+				VW_user_opciones vus = new VW_user_opciones();
+				/*vus.setId_rol(rs.getInt("id_rol"));
+				vus.setRol_name(rs.getString("rol_name"));
+				vus.setId_user(rs.getInt("id_user"));
+				vus.setUsername(rs.getString("username"));*/
+				vus.setId_opc(rs.getInt("id_opc"));
+				vus.setOpcion(rs.getString("opcion"));
+			
+				opcionesUser.add(vus);
+			}
+			
+			return opcionesUser;
+		} 
+		catch (SQLException e) 
+		{
+			System.err.println("Error en listarOpcionesUsuario(int): " + e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 }
